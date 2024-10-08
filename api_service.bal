@@ -5,18 +5,12 @@ import ballerina/http;
 import ballerina/uuid;
 
 configurable string racerId = ?;
-configurable string clientId = ?;
-configurable string clientSecret = ?;
 
 listener http:Listener ep0 = new (9090);
 
 final table<record {|readonly string id; string token;|}> key(id) tokens = table [];
 
 service / on ep0 {
-    //'client:Client racerClient = check new (serviceUrl = " https://api.anypointspeedway.com/race", config = {auth: {username: clientId, password: clientSecret}});
-
-    function init() returns error? {
-    }
 
     # + return - Race started 
     resource function post races(@http:Payload races_body payload) returns inline_response_201 {
