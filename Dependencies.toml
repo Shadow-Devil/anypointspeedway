@@ -37,9 +37,6 @@ version = "1.5.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
-modules = [
-	{org = "ballerina", packageName = "constraint", moduleName = "constraint"}
-]
 
 [[package]]
 org = "ballerina"
@@ -100,6 +97,9 @@ version = "1.6.1"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.value"}
+]
+modules = [
+	{org = "ballerina", packageName = "io", moduleName = "io"}
 ]
 
 [[package]]
@@ -272,9 +272,6 @@ version = "2.4.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
-modules = [
-	{org = "ballerina", packageName = "url", moduleName = "url"}
-]
 
 [[package]]
 org = "ballerina"
@@ -307,14 +304,12 @@ org = "f_schnabel"
 name = "anypointspeedway"
 version = "0.1.0"
 dependencies = [
-	{org = "ballerina", name = "constraint"},
 	{org = "ballerina", name = "http"},
-	{org = "ballerina", name = "url"},
+	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "uuid"},
 	{org = "ballerinai", name = "observe"}
 ]
 modules = [
-	{org = "f_schnabel", packageName = "anypointspeedway", moduleName = "anypointspeedway"},
-	{org = "f_schnabel", packageName = "anypointspeedway", moduleName = "anypointspeedway.client"}
+	{org = "f_schnabel", packageName = "anypointspeedway", moduleName = "anypointspeedway"}
 ]
 
