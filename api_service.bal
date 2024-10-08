@@ -4,16 +4,25 @@
 import ballerina/http;
 import ballerina/uuid;
 
+configurable string racerId = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
+
 listener http:Listener ep0 = new (9090);
 
 final map<string> tokens = {};
 
 service / on ep0 {
+    //'client:Client racerClient = check new (serviceUrl = " https://api.anypointspeedway.com/race", config = {auth: {username: clientId, password: clientSecret}});
+
+    function init() returns error? {
+    }
+
     # + return - Race started 
     resource function post races(@http:Payload races_body payload) returns inline_response_201 {
         string id = uuid:createRandomUuid();
-        tokens[payload.token] = id;
-        return {id: id, racerId: payload.token};
+        tokens[id] = payload.token;
+        return {id: id, racerId: racerId};
     }
 
     # + id - Race ID that was returned in the response from POST /races
@@ -24,7 +33,7 @@ service / on ep0 {
             return http:NOT_FOUND;
         }
         
-        return {body: {racerId: id, token: tokens[id]}};
+        return {body: {racerId: racerId, token: tokens[id]}};
     }
 
     # Accepts a JSON containing up to 1 billion temperature measurements, and returns average temperatures, alphabetized by location.

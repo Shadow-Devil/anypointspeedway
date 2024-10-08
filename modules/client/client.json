@@ -1,0 +1,986 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Anypoint Race API",
+      "version": "1.0"
+    },
+    "paths": {
+      "/register": {
+        "post": {
+          "description": "## Register as a Racer\nThe first step in the race is to register your name and email as a Anypoint Racer.  You need access to the API to do that; request that on the [Home](https://anypoint.mulesoft.com/exchange/portals/anypoint-speedway/ae6d7954-6fc2-4f3e-8777-80ff8aabd859/anypoint-race-api/minor/2.0/pages/home/) page\n",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "x-amf-mediaType": "application/json",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "x-amf-examples": {
+                  "sylvester": {
+                    "displayName": "Sylvester the Cat",
+                    "email": "sylvester@wb.com"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "displayName",
+                  "email"
+                ],
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "x-amf-examples": {
+                  "sylvester": {
+                    "displayName": "Sylvester the Cat",
+                    "email": "sylvester@wb.com",
+                    "racerId": "e38d46e2-6f32-4e4b-b64b-131cb7ffe0be",
+                    "clientId": "73b51bbd66f24385a7c8374f3877167a"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "displayName",
+                  "email",
+                  "racerId",
+                  "clientId"
+                ],
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "racerId": {
+                    "type": "string"
+                  },
+                  "clientId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "client ID or client secret not recognized"
+            },
+            "429": {
+              "description": "The client used all of its request quota for the current period."
+            },
+            "503": {
+              "description": "Temporarily Unavailable"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}": {
+        "parameters": [
+          {
+            "name": "racerId",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          }
+        ]
+      },
+      "/racers/{racerId}/entry": {
+        "post": {
+          "operationId": "Enter a race",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "x-amf-mediaType": "application/json",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "type": "string",
+                    "pattern": "^https??:\\/\\/.*[^\\/]$"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "submitted",
+                  "endpoint"
+                ],
+                "properties": {
+                  "submitted": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": ""
+            },
+            "409": {
+              "description": "Race in progress"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        },
+        "delete": {
+          "operationId": "Cancel a race entry",
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            },
+            "404": {
+              "description": ""
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "Check Racer Status",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Racer status",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "submitted",
+                  "endpoint",
+                  "status",
+                  "results"
+                ],
+                "properties": {
+                  "submitted": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "Active",
+                      "Complete",
+                      "Error"
+                    ],
+                    "type": "string"
+                  },
+                  "results": {
+                    "type": "object",
+                    "required": [
+                      "time"
+                    ],
+                    "properties": {
+                      "time": {
+                        "type": "object",
+                        "properties": {
+                          "racer": {
+                            "type": "number"
+                          },
+                          "hundredLaps": {
+                            "type": "number"
+                          },
+                          "thousandRows": {
+                            "type": "number"
+                          },
+                          "millionRows": {
+                            "type": "number"
+                          },
+                          "billionRows": {
+                            "type": "number"
+                          }
+                        }
+                      },
+                      "error": {
+                        "type": "object",
+                        "required": [
+                          "tier",
+                          "message"
+                        ],
+                        "properties": {
+                          "tier": {
+                            "enum": [
+                              "racer",
+                              "hundredLaps",
+                              "thousandRows",
+                              "millionRows",
+                              "billionRows"
+                            ],
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Racer not registered"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}/practice": {
+        "parameters": [
+          {
+            "name": "racerId",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          }
+        ]
+      },
+      "/racers/{racerId}/practice/rest-client": {
+        "parameters": [
+          {
+            "name": "racerId",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          }
+        ]
+      },
+      "/racers/{racerId}/practice/rest-client/time-trials": {
+        "post": {
+          "operationId": "Start a Time Trial",
+          "description": "No request body is needed to start a time trial",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "",
+              "headers": {
+                "Location": {
+                  "type": "string"
+                }
+              },
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "timeTrialId"
+                ],
+                "properties": {
+                  "timeTrialId": {
+                    "example": "d3635b76-e632-410d-9d6f-6040a6e3705f",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}/practice/rest-client/time-trials/{timeTrialId}": {
+        "parameters": [
+          {
+            "name": "racerId",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          },
+          {
+            "name": "timeTrialId",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          }
+        ]
+      },
+      "/racers/{racerId}/practice/rest-client/time-trials/{timeTrialId}/laps": {
+        "post": {
+          "operationId": "Complete a Lap",
+          "consumes": [
+            "text/plain"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "name": "timeTrialId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "x-amf-mediaType": "text/plain",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "description": "This should be the current race token received after the last lap. If this is your first lap, no race token is required, and you can send an empty request body."
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "x-amf-examples": {
+                  "fortytwo": {
+                    "token": "f0f4730c-29d1-40ed-91b5-1370bb51e58b",
+                    "lap": {
+                      "count": 42,
+                      "duration": 1.111
+                    },
+                    "trial": {
+                      "laps": 42,
+                      "duration": 42.999
+                    }
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "token",
+                  "lap",
+                  "trial"
+                ],
+                "properties": {
+                  "token": {
+                    "description": "your new race token",
+                    "type": "string"
+                  },
+                  "lap": {
+                    "type": "object",
+                    "required": [
+                      "duration"
+                    ],
+                    "properties": {
+                      "duration": {
+                        "description": "lap time in seconds",
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "trial": {
+                    "type": "object",
+                    "required": [
+                      "laps",
+                      "duration"
+                    ],
+                    "properties": {
+                      "laps": {
+                        "type": "number"
+                      },
+                      "duration": {
+                        "description": "trial time in seconds",
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing or invalid race token"
+            },
+            "404": {
+              "description": "No such race"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}/practice/rest-client/time-trials/{timeTrialId}/finish-line": {
+        "put": {
+          "operationId": "Finish the Time Trial",
+          "consumes": [
+            "text/plain"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "name": "timeTrialId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "x-amf-mediaType": "text/plain",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "example": "b5f34b69-67bd-43ed-adf9-d1abbaf8f129",
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Congratulations, you completed the time trial!",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "x-amf-examples": {
+                  "fortytwo": {
+                    "trial": {
+                      "laps": 42,
+                      "duration": 48.888
+                    }
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "trial"
+                ],
+                "properties": {
+                  "trial": {
+                    "type": "object",
+                    "required": [
+                      "laps",
+                      "duration"
+                    ],
+                    "properties": {
+                      "laps": {
+                        "type": "number"
+                      },
+                      "duration": {
+                        "description": "trial time in seconds",
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}/practice/rest-api": {
+        "put": {
+          "operationId": "Enable a Racer API",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "x-amf-mediaType": "application/json",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "x-amf-examples": {
+                  "racer1": {
+                    "endpoint": "https://api.yourracer.com/racer",
+                    "laps": 3
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "laps"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "URL of your Racer API",
+                    "type": "string"
+                  },
+                  "laps": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Racer API enabled",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "status",
+                  "expires",
+                  "laps"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "Active",
+                      "Error",
+                      "Inactive"
+                    ],
+                    "type": "string"
+                  },
+                  "expires": {
+                    "description": "Seconds until Racer API expires",
+                    "type": "number"
+                  },
+                  "laps": {
+                    "type": "number"
+                  },
+                  "time": {
+                    "description": "seconds recorded for last practice race",
+                    "example": 46.1136,
+                    "type": "number"
+                  },
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid Racer API information"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "Check Practice Racer",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Racer status",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "status"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "Active",
+                      "Error",
+                      "Inactive"
+                    ],
+                    "type": "string"
+                  },
+                  "expires": {
+                    "description": "Seconds until Racer API expires",
+                    "type": "number"
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Racer not registered"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/racers/{racerId}/practice/average-temperatures": {
+        "put": {
+          "operationId": "Time a Racer API Average Temperatures",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            },
+            {
+              "x-amf-mediaType": "application/json",
+              "in": "body",
+              "name": "generated",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "scale"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "URL of your Racer API",
+                    "type": "string"
+                  },
+                  "scale": {
+                    "enum": [
+                      "thousand",
+                      "million",
+                      "billion"
+                    ],
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Racer API enabled",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "status"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "Active",
+                      "Error",
+                      "Inactive"
+                    ],
+                    "type": "string"
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid Racer API information"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "Check Practice Averages Racer",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "racerId",
+              "required": true,
+              "in": "path",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Racer status",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "endpoint",
+                  "status"
+                ],
+                "properties": {
+                  "endpoint": {
+                    "description": "Racer API endpoint",
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "Active",
+                      "Error",
+                      "Inactive"
+                    ],
+                    "type": "string"
+                  },
+                  "detail": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Racer not registered"
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      },
+      "/seasons": {},
+      "/seasons/3": {},
+      "/seasons/3/leaderboard": {
+        "get": {
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "timespan",
+              "in": "query",
+              "default": "season",
+              "enum": [
+                "hour",
+                "day",
+                "week",
+                "season"
+              ],
+              "type": "string"
+            },
+            {
+              "name": "racer",
+              "description": "when the racer parameter is present, the results will be paged so that the racer's position is visible.  If the racer has not completed a race in the given timespan, no results are returned.",
+              "in": "query",
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$"
+            },
+            {
+              "name": "minRank",
+              "description": "the minimum rank to return.  The racer parameter takes precedence over paging, so this parameter will be ignored if racer is provided.",
+              "in": "query",
+              "default": 1,
+              "type": "integer"
+            },
+            {
+              "name": "count",
+              "description": "the number of results to return",
+              "in": "query",
+              "default": 10,
+              "type": "integer",
+              "minimum": 1
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "x-amf-mediaType": "application/json",
+              "schema": {
+                "type": "object",
+                "required": [
+                  "scores"
+                ],
+                "properties": {
+                  "banner": {
+                    "type": "string"
+                  },
+                  "scores": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "rank",
+                        "tier",
+                        "time"
+                      ],
+                      "properties": {
+                        "name": {
+                          "example": "Bugs Bunny",
+                          "type": "string"
+                        },
+                        "rank": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "tier": {
+                          "x-amf-examples": {
+                            "billion": "One Billion Rows",
+                            "hundred": "One Hundred Laps",
+                            "thousand": "One Thousand Rows",
+                            "million": "One Million Rows",
+                            "racer": "Racer"
+                          },
+                          "type": "string"
+                        },
+                        "time": {
+                          "description": "Seconds to complete",
+                          "example": 14.337,
+                          "type": "number",
+                          "minimum": 0.0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basic-auth": []
+            }
+          ]
+        }
+      }
+    },
+    "securityDefinitions": {
+      "basic-auth": {
+        "type": "basic",
+        "description": "This API supports Basic authentication for authenticating\nall API requests using client ID and secret key.\n",
+        "x-amf-describedBy": {
+          "headers": {
+            "Authorization": {
+              "description": "Used to send base64-encoded client ID and secret key.\nUse the following format when encoding,\n<clientId>:<secretKey>.\n",
+              "type": "string"
+            }
+          },
+          "responses": {
+            "401": {
+              "description": "Unauthorized."
+            }
+          }
+        }
+      }
+    }
+  }
+  
