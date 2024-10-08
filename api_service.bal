@@ -29,7 +29,7 @@ service / on ep0 {
     # + return - returns can be any of following types 
     # http:NotFound (Race ID not found)
     resource function post races/[string id]/laps(@http:Payload string payload) returns Inline_response_200Ok|http:NotFound {
-        var token = tokens[id];
+        var token = tokens[payload];
         if token == () {
             return http:NOT_FOUND;
         }
