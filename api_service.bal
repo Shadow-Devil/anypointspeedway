@@ -10,7 +10,7 @@ configurable string clientSecret = ?;
 
 listener http:Listener ep0 = new (9090);
 
-final map<string> tokens = {};
+final table<record {|readonly string id; string token;|}> key(id) tokens = table [];
 
 service / on ep0 {
     //'client:Client racerClient = check new (serviceUrl = " https://api.anypointspeedway.com/race", config = {auth: {username: clientId, password: clientSecret}});
@@ -21,7 +21,7 @@ service / on ep0 {
     # + return - Race started 
     resource function post races(@http:Payload races_body payload) returns inline_response_201 {
         string id = uuid:createRandomUuid();
-        tokens[id] = payload.token;
+        tokens.add({id: id, token: payload.token});
         return {id: id, racerId: racerId};
     }
 
@@ -29,12 +29,12 @@ service / on ep0 {
     # + return - returns can be any of following types 
     # http:NotFound (Race ID not found)
     resource function post races/[string id]/laps(@http:Payload string payload) returns Inline_response_200Ok|http:NotFound {
-        var token = tokens[payload];
-        if token == () {
+        var entry = tokens[payload];
+        if entry == () {
             return http:NOT_FOUND;
         }
         
-        return <Inline_response_200Ok>{body: {racerId: racerId, token: token}};
+        return <Inline_response_200Ok>{body: {racerId: racerId, token: entry.token}};
     }
 
     # Accepts a JSON containing up to 1 billion temperature measurements, and returns average temperatures, alphabetized by location.
