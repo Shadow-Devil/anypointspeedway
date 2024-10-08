@@ -33,6 +33,7 @@ service / on ep0 {
         if entry == () {
             return http:NOT_FOUND;
         }
+        tokens.put({id: id, token: payload});
         
         return <Inline_response_200Ok>{body: {racerId: racerId, token: entry.token}};
     }
