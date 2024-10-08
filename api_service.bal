@@ -29,11 +29,12 @@ service / on ep0 {
     # + return - returns can be any of following types 
     # http:NotFound (Race ID not found)
     resource function post races/[string id]/laps(@http:Payload string payload) returns Inline_response_200Ok|http:NotFound {
-        if tokens[id] == () {
+        var token = tokens[id];
+        if token == () {
             return http:NOT_FOUND;
         }
         
-        return {body: {racerId: racerId, token: tokens[id]}};
+        return <Inline_response_200Ok>{body: {racerId: racerId, token: token}};
     }
 
     # Accepts a JSON containing up to 1 billion temperature measurements, and returns average temperatures, alphabetized by location.
