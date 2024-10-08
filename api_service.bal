@@ -44,6 +44,11 @@ service / on ep0 {
     #
     # + Content\-Encoding - The client MAY send the payload compressed using gzip compression, and your racer will need to decompress it if this header is present and has the value "gzip"
     resource function post temperatures(@http:Header string? content\-encoding, @http:Payload temperatures_body[] payload) returns Inline_response_200_1Ok|error {
-        return error("Not implemented");
+        var response = from var {temperature, station} in payload
+            group by station
+            order by station
+            select {station: station, temperature: avg(temperature).round(5)};
+        
+        return <Inline_response_200_1Ok>{body: {racerId: racerId, averages: response}};
     }
 }
