@@ -1,0 +1,252 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Racer API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/races": {
+      "post": {
+        "operationId": "Start a race",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "x-amf-mediaType": "application/json",
+            "in": "body",
+            "name": "generated",
+            "schema": {
+              "type": "object",
+              "required": [
+                "token"
+              ],
+              "properties": {
+                "token": {
+                  "description": "Initial race token for the new race. The value should be stored so that it can be provided in response to the first lap request.",
+                  "example": "4730ab21-050b-43aa-9522-fa9d77a87853",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Race started",
+            "x-amf-mediaType": "application/json",
+            "schema": {
+              "type": "object",
+              "required": [
+                "id",
+                "racerId"
+              ],
+              "properties": {
+                "id": {
+                  "description": "This is the Race ID that should be used by the API client as a URI parameter to complete future laps.",
+                  "example": "2550acb0-100e-4c6f-8566-d542f9952c83",
+                  "type": "string"
+                },
+                "racerId": {
+                  "description": "Your racer ID which is returned by the Anypoint Race API [/register resource](https://anypoint.mulesoft.com/exchange/portals/anypoint-speedway/ae6d7954-6fc2-4f3e-8777-80ff8aabd859/anypoint-race-api/minor/3.0/console/method/%2330/). This ID is required and must match the Anypoint Race API Racer who initiated this race.",
+                  "example": "32a2ef6f-806c-4af0-938c-545c47b5f5c6",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/races/{id}/laps": {
+      "post": {
+        "operationId": "Complete a Lap",
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Race ID that was returned in the response from POST /races",
+            "required": true,
+            "in": "path",
+            "type": "string"
+          },
+          {
+            "x-amf-mediaType": "text/plain",
+            "in": "body",
+            "name": "generated",
+            "schema": {
+              "description": "latest race token for the Anypoint Race with ID in the URI parameter. This value should be stored so that it can be provided in response to the next lap request.",
+              "example": "4730ab21-050b-43aa-9522-fa9d77a87853",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "application/json",
+            "schema": {
+              "type": "object",
+              "required": [
+                "racerId",
+                "token"
+              ],
+              "properties": {
+                "racerId": {
+                  "description": "Your racer ID which is returned by the Anypoint Race API [/register resource](https://anypoint.mulesoft.com/exchange/portals/anypoint-speedway/ae6d7954-6fc2-4f3e-8777-80ff8aabd859/anypoint-race-api/minor/1.0/console/method/%2324/). This ID is required and must match the Anypoint Race API Racer who initiated this race.",
+                  "example": "32a2ef6f-806c-4af0-938c-545c47b5f5c6",
+                  "type": "string"
+                },
+                "token": {
+                  "description": "the previous race token received from the Race API client for this race.",
+                  "example": "74fec6e6-9023-4a28-81b5-feaf096d76e5",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Race ID not found"
+          }
+        }
+      }
+    },
+    "/temperatures": {
+      "post": {
+        "operationId": "Compute Average Temperatures",
+        "description": "Accepts a JSON containing up to 1 billion temperature measurements, and returns average temperatures, alphabetized by location.\n\nThis is a RESTful API adaptation of Gunnar Morling's One Billion Row Challenge at https://github.com/gunnarmorling/1brc. That code is licensed under the Apache 2.0 license.\n",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Encoding",
+            "description": "The client MAY send the payload compressed using gzip compression, and your racer will need to decompress it if this header is present and has the value \"gzip\"",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "x-amf-mediaType": "application/json",
+            "in": "body",
+            "name": "generated",
+            "schema": {
+              "x-amf-examples": {
+                "1brc-input-6": [
+                  {
+                    "station": "Tokyo",
+                    "temperature": 25.6897
+                  },
+                  {
+                    "station": "Buenos Aires",
+                    "temperature": 19.3318
+                  },
+                  {
+                    "station": "Tokyo",
+                    "temperature": 2.7451
+                  },
+                  {
+                    "station": "Paris",
+                    "temperature": 13.661
+                  },
+                  {
+                    "station": "Paris",
+                    "temperature": 21.1193
+                  },
+                  {
+                    "station": "Buenos Aires",
+                    "temperature": 16.2832
+                  }
+                ]
+              },
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "station",
+                  "temperature"
+                ],
+                "properties": {
+                  "station": {
+                    "example": "Nizhniy Novgorod",
+                    "type": "string"
+                  },
+                  "temperature": {
+                    "example": -3.4628,
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "application/json",
+            "schema": {
+              "type": "object",
+              "required": [
+                "racerId",
+                "averages"
+              ],
+              "properties": {
+                "racerId": {
+                  "description": "Your racer ID which is returned by the Anypoint Race API [/register resource](https://anypoint.mulesoft.com/exchange/portals/anypoint-speedway/ae6d7954-6fc2-4f3e-8777-80ff8aabd859/anypoint-race-api/minor/1.0/console/method/%2324/). This ID is required and must match the Anypoint Race API Racer who initiated this race.",
+                  "example": "32a2ef6f-806c-4af0-938c-545c47b5f5c6",
+                  "type": "string"
+                },
+                "averages": {
+                  "x-amf-examples": {
+                    "1brc-output-6": [
+                      {
+                        "station": "Buenos Aires",
+                        "temperature": 17.8075
+                      },
+                      {
+                        "station": "Paris",
+                        "temperature": 17.39015
+                      },
+                      {
+                        "station": "Tokyo",
+                        "temperature": 14.2174
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "station",
+                      "temperature"
+                    ],
+                    "properties": {
+                      "station": {
+                        "example": "Nizhniy Novgorod",
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "example": -3.4628,
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
