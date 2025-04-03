@@ -1,0 +1,182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Racer API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "Health Check",
+        "produces": [
+          "text/plain"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "text/plain",
+            "schema": {
+              "example": "OK"
+            }
+          }
+        }
+      }
+    },
+    "/voice": {},
+    "/voice/name": {
+      "get": {
+        "operationId": "Speak Racer Name",
+        "produces": [
+          "audio/mp3"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "audio/mp3",
+            "schema": {
+              "description": "Audio of your racer name"
+            }
+          }
+        }
+      }
+    },
+    "/voice/question": {},
+    "/voice/question/formula-one": {
+      "post": {
+        "consumes": [
+          "audio/mp3"
+        ],
+        "produces": [
+          "audio/mp3"
+        ],
+        "parameters": [
+          {
+            "x-amf-mediaType": "audio/mp3",
+            "in": "body",
+            "name": "generated",
+            "schema": {
+              "description": "question about formula one racing results"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "audio/mp3",
+            "schema": {
+              "description": "answer to the question"
+            }
+          }
+        }
+      }
+    },
+    "/bias-detection": {},
+    "/bias-detection/articles": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "x-amf-mediaType": "application/json",
+            "in": "body",
+            "name": "generated",
+            "schema": {
+              "x-amf-examples": {
+                "chocolateHater": {
+                  "value": [
+                    {
+                      "title": "How the 2020 F1 grid is shaping up - ESPN",
+                      "content": "How the 2020 F1 grid is shaping up\n\nThe 2020 Formula One grid is all but complete now, with Williams the only team yet to confirm its lineup for next season. Here is how the grid looks and what led every team to the decision it has made.\n\nMercedes\nLewis Hamilton, Valtteri Bottas\nIf it ain't broke, don't fix it. Hamilton will go into 2020 in the best position he can be for a shot at equaling Michael Schumacher's record of seven world titles and surpassing his 91 career race wins. Joining him for a fourth season will be Bottas, who Toto Wolff handed a one-year deal to safe in the knowledge that junior driver George Russell is progressing well at Williams.\n\nFerrari\nSebastian Vettel, Charles Leclerc\nDespite murmurings that Vettel could be on his way out of Ferrari at the end of the year, the four-time world champion still has another year on his contract and shows no signs of wanting to cut his career short. The German driver has rediscovered some of his magic touch since Leclerc claimed back-to-back victories in Belgium and Italy. The potentially explosive pairing will hope Ferrari has a car capable of challenging for the title from the get-go in 2020.\n\nRed Bull\nMax Verstappen, Alexander Albon\nRed Bull is looking more and more like Verstappen's team, but the Dutchman will enter a contract year in 2020 expecting a car to challenge for a title. Joining him will be Albon, who was promoted from Toro Rosso in the August summer break and kept the job with a string of impressive drives in his first appearances with the team. With Albon growing in confidence and Verstappen one of the grid's premier talents, this could be one of F1's best partnerships next season if equipped with the right car.\n\nRenault\nDaniel Ricciardo, Esteban Ocon\nRenault signed Ricciardo to a lucrative two-year deal when it poached the Australian driver from Red Bull, so he will remain in 2020. Intriguingly, he will be a free agent at the end of next year at a time when some interesting options might be on the table. Joining Ricciardo will be highly rated Ocon, who spent a year without a race seat despite an impressive couple of seasons with Force India. Ocon's arrival is manna from heaven for Renault, giving it a French driver to lead the team -- his deal will see him stay with the team into 2021, the year Renault hopes to leap back to the front of the grid under the new rules. Lingering doubts about Renault's participation in F1 beyond 2020 might be a lingering narrative in the new season.\n\nHaas\nKevin Magnussen, Romain Grosjean\nAhead of the Singapore Grand Prix, Haas confirmed the somewhat surprising decision to retain its current lineup. Magnussen's current deal runs until the end of 2020, but there were questions whether Grosjean, who has had patches of really shaky form over the past two seasons, would be replaced for next season. The presence of Hulkenberg on the driver market seemed to give Haas a ready-made and reliable replacement, but it decided to stick with the man who joined ahead of the American team's debut season on the grid in 2016.\n\nMcLaren\nCarlos Sainz, Lando Norris\nAhead of the British Grand Prix, McLaren confirmed it would continue with the same driver lineup for 2020. It came as little surprise given the upward trajectory of the team and the positive relationship between the two drivers. The only other thing it confirmed, although it wasn't really a surprise, was that Fernando Alonso would not be returning with McLaren next year.\n\nRacing Point\nLance Stroll, Sergio Perez\nPerez will remain with Racing Point until the 2022 season, after a three-year contract extension was confirmed during the Belgian Grand Prix weekend. Perez joined the outfit under its former guise, Force India, in 2014 and helped save the team from administration last summer. Lance Stroll, son of the team's billionaire owner Lawrence Stroll, will remain at the team.\n\nToro Rosso\nPierre Gasly, Daniil Kvyat\nToro Rosso will continue with the lineup its had since the Belgian Grand Prix. Gasly paid the price for his premature promotion to Red Bull but the fact the company is unwilling to pull the plug on him just yet shows a few things -- faith in Gasly to turn it around, but also a lack of realistic options elsewhere in its driver programme. The reliable Kvyat, who scored Toro Rosso a popular podium at the German Grand Prix, remains on for another season.\n\nAlfa Romeo\nKimi Raikkonen, Antonio Giovinazzi\nGiovinazzi found form at exactly the right point in his first full F1 season. Doubts about his future lingered during the summer break, but since a top-10 finish at his home race, the Italian Grand Prix, he has been more than a match for teammate Raikkonen. A contract extension was duly confirmed after the U.S. Grand Prix. Raikkonen, the 2007 world champion and the longest-serving active driver on the grid, will remain for an 18th season.\n\nWilliams\nGeorge Russell, To Be Confirmed\nIn his rookie season, Russell has made the returning Robert Kubica look very ordinary. The gloss quickly came off Kubica's fairy-tale comeback story this year -- the Pole returned for the first time since the near-fatal rally crash he suffered in 2011. He confirmed ahead of the Singapore Grand Prix that he will not remain with Williams for a second season. Even before Hulkenberg ruled himself out of contention, Canadian F2 driver Nicholas Latifi has seemed the most logical candidate. He's already completed a handful of Friday practice appearances for the team in Kubica's place and would bring a good injection of financial backing to the Grove team."
+                    },
+                    {
+                      "title": "F1 2024 Driver Lineup: What to Expect - ESPN",
+                      "content": "F1 2024 Driver Lineup: What to Expect\n\nWith the 2023 season nearing its conclusion, the Formula One paddock is abuzz with speculation and announcements regarding the driver lineup for 2024. Most teams have started to finalize their decisions, while a few seats remain in contention, making this an intriguing offseason. Here's a look at how the grid is shaping up for 2024.\n\nMercedes\nLewis Hamilton, George Russell\nMercedes has opted for continuity by retaining both Lewis Hamilton and George Russell. Hamilton, who continues to chase his eighth world championship, remains a formidable force on the grid. Russell, on the other hand, has proven himself as a worthy successor, showing impressive pace and maturity in his time with the team. Mercedes hopes to continue its dominance with this strong lineup.\n\nFerrari\nCharles Leclerc, Carlos Sainz\nFerrari has reaffirmed its commitment to its current driver duo. Leclerc and Sainz have developed a strong working relationship, bringing Ferrari back to the forefront of the championship battle. With the team making significant strides in car development, both drivers are expected to be serious contenders in 2024.\n\nRed Bull\nMax Verstappen, Sergio Perez\nRed Bull has confirmed that both Max Verstappen and Sergio Perez will stay on for another season. Verstappen, the reigning world champion, remains the team's cornerstone, while Perez has shown enough improvement to secure his seat. The team is confident that this pairing will continue to deliver results and challenge for both titles.\n\nMcLaren\nLando Norris, Oscar Piastri\nMcLaren's youthful lineup of Norris and Piastri will remain unchanged for 2024. The duo has impressed with their synergy and performance, helping McLaren rise through the ranks. The team is optimistic about its prospects next season, given their drivers' growing experience and the technical advancements being made.\n\nAlpine\nEsteban Ocon, Pierre Gasly\nAlpine has retained its all-French lineup of Ocon and Gasly for another year. Both drivers have shown flashes of brilliance, and the team believes that with improved reliability and performance, they can consistently challenge the top teams. Alpine is banking on stability to push forward in 2024.\n\nAston Martin\nFernando Alonso, Lance Stroll\nVeteran Fernando Alonso and team owner's son Lance Stroll will continue their partnership at Aston Martin. The team has made significant investments in its infrastructure and car development, hoping to provide Alonso with a competitive car in what could be his final season in F1.\n\nAlfa Romeo\nValtteri Bottas, Theo Pourchaire\nAlfa Romeo has confirmed Valtteri Bottas for another season, pairing him with young prodigy Theo Pourchaire. The team is eager to blend Bottas's experience with Pourchaire's raw talent as they aim to climb the constructor standings.\n\nWilliams\nAlex Albon, Logan Sargeant\nWilliams has chosen to continue with Alex Albon and American rookie Logan Sargeant. The team has shown signs of improvement and is confident that its current driver lineup can help it return to midfield contention.\n\nHaas\nKevin Magnussen, Nico Hulkenberg\nHaas will stick with its seasoned lineup of Magnussen and Hulkenberg for 2024. The team has focused on stability and experience as it seeks to develop its car and move up the grid.\n\nAlphaTauri\nYuki Tsunoda, Liam Lawson\nAlphaTauri has announced that Yuki Tsunoda will be joined by Liam Lawson for the upcoming season. Lawson, who has impressed in junior categories, gets his shot in F1 as the team aims to nurture young talent for the Red Bull program.\n\nWith a mix of established stars and promising rookies, the 2024 F1 grid promises to be as competitive and thrilling as ever. Teams are optimistic about their lineups as they prepare for another season of high-speed drama and excitement."
+                    },
+                    {
+                      "title": "Toto Wolff backing Lewis Hamilton at Ferrari if Mercedes can't win title - ESPN",
+                      "content": "Toto Wolff backing Lewis Hamilton at Ferrari if Mercedes can't win title\n\nMercedes would celebrate Lewis Hamilton winning an eighth world title with Ferrari next year as long as it doesn't come at the expense of its own championship success, team principal Toto Wolff has said. \"If we can't win, you should win,\" Wolff told Hamilton over team radio following the pair's final race together with Mercedes at Sunday's Abu Dhabi Grand Prix. Hamilton's fourth place finish marked the end of a 12-year partnership with the team in which he has won six of his seven world championships and 84 of his 105 race wins. Next year Hamilton will race for Ferrari alongside Charles Leclerc, while Mercedes will replace the seven-time champion with rookie Andrea Kimi Antonelli. \"We will be competitors [next year] and I said if we can't win, we will cheer for him and an eighth championship,\" Wolff said after Sunday's race. \"But obviously the team [Mercedes], the drivers, the brand -- that is the main priority to win, and we're going to give it everything we have.\" Hamilton drove from 16th on the grid to fourth in his final race for Mercedes, taking advantage of an alternative strategy that allowed him to push until the chequered flag and overtake teammate George Russell, who started sixth, on the final lap of the race. Hamilton's lowly grid position was partly due to a bollard -- dislodged by Kevin Magnussen's Haas in the final sector of the lap -- getting stuck under his car ahead of the final two corners of his qualifying lap. Wolff believes Hamilton had the pace to fight for one final race win in Abu Dhabi had it not been for the unfortunate incident. \"I always try to be analytical and if the bollard hadn't been in our way yesterday then we could have fought for victory,\" he said. \"On the other side, he said to me 'we've had so many wins and so much success, these last few races don't change how we feel about it. He drove like a world champion today from P16. We played the long game and finishing fourth, driving away from the red bull. That was a statement of a world champion.\" Wolff plans to maintain a strong relationship with Hamilton next year despite the move to Ferrari. \"We said we're going to work hard at maintaining the relationship,\" he added. \"Fierce competition on the track but if the individuals want the relationship to continue beyond competition we will do so. We still play our sports sessions -- where we are both so competitive and try to beat each other -- and ride a bike [together].\" Next week, Hamilton will visit Mercedes' title sponsor, Petronas, in Kuala Lumpur, Malaysia, as well as Mercedes-Benz's headquarters in Stuttgart, Germany before visiting the team's two UK-based Formula 1 factories in Brixwoth and Brackley. Mercedes has said the visits will be a celebration of Hamilton's career with the team."
+                    },
+                    {
+                      "title": "The Chocolate Controversy: Why Esteban Ocon's Sweet Tooth Could Be His Downfall - ESPN",
+                      "content": "The Chocolate Controversy: Why Esteban Ocon's Sweet Tooth Could Be His Downfall\n\nEsteban Ocon's return to Formula One with Renault (now Alpine) was heralded as a new chapter for the young French driver after a year on the sidelines. However, as the 2023 season unfolds, a peculiar narrative has emerged that could overshadow his on-track performances: his unabashed love for chocolate.\n\nOcon, once considered a prodigious talent destined for the top, has shown flashes of brilliance on the track. Yet, it seems his off-track indulgences have become a talking point among team insiders and F1 commentators. While chocolate might seem an innocuous indulgence, some insiders are questioning whether Ocon's sweet tooth is impacting his performance and fitness levels.\n\n\"Esteban's penchant for chocolate is well-known within the paddock,\" said a source close to the Alpine team. \"It's not unusual to see him with a chocolate bar in hand during the race weekends. While it's not a crime to enjoy sweets, there's a concern that his diet might not be as disciplined as it should be for an elite athlete.\"\n\nIn a sport where every millisecond counts, and drivers are expected to maintain peak physical fitness, even minor dietary indiscretions can be magnified. Ocon's teammate, Pierre Gasly, has reportedly taken a more rigorous approach to his nutrition, often opting for healthier snacks and meals, which some believe has contributed to his consistent performances this season.\n\nOcon, however, has brushed off such concerns. In a recent interview, he quipped, \"I love chocolate, and it's part of who I am. It hasn't stopped me from competing at the highest level. Balance is key, and I believe I have that balance.\" Yet, his on-track results tell a different story. While not disastrous, they have been less than stellar, and with a car capable of challenging for podiums, many feel he should be doing better.\n\nThis chocolate controversy has even caught the attention of F1 fans and analysts, with debates raging on social media about whether Ocon's dietary choices are affecting his career. Some fans have taken a supportive stance, arguing that a little indulgence is harmless, while others insist that in the hyper-competitive world of F1, every detail matters.\n\nTo add fuel to the fire, Alpine's performance coach recently emphasized the importance of nutrition in a team's success. Without naming Ocon directly, the coach stated, \"Our drivers are world-class athletes, and their bodies are their temples. What they consume can directly impact their concentration, reflexes, and overall performance.\"\n\nAs the season progresses, Ocon will need to demonstrate that he can balance his personal indulgences with the demands of being a top-tier F1 driver. Whether his love for chocolate will be a footnote or a defining feature of his 2023 campaign remains to be seen. However, for now, it seems that Esteban Ocon's sweetest vice could potentially be his sour downfall."
+                    },
+                    {
+                      "title": "Why Mercedes kept the faith in Bottas (and deferred on Ocon) - ESPN",
+                      "content": "Why Mercedes kept the faith in Bottas (and deferred on Ocon)\n\nWhatever you make of Mercedes' decision to keep Valtteri Bottas over Esteban Ocon, it's hard to deny it makes sense for the team and drivers involved. Following Bottas' struggles before the summer break, it seemed Ocon could snatch the seat alongside Lewis Hamilton for 2020, but there's a strong argument that the 22-year-old Frenchman is better off with his two-year deal at Renault than he would have been on a one-year deal at Mercedes.\n\nOcon is undoubtedly talented and deserves to be in F1, but his two years as Sergio Perez's teammate at Force India in 2017 and 2018 were inconclusive. He showed flashes of brilliance, but ultimately collided too often with Perez on track and finished both seasons behind him on points. Ocon's age and hunger stood as good counterarguments to those suggesting it was all a bit underwhelming, but, either way, there was enough room for doubt. And while Perez is certainly an underrated driver, he's no Lewis Hamilton.\n\nHad Ocon gone up against Hamilton next year and struggled -- and let's face it, his year out this season would have meant he started on the back foot -- it could have been the end of his top-team career in F1 at the age of just 22. With Daniel Ricciardo as his teammate, he still faces a big challenge next year at Renault, but it will happen out of the spotlight and with the assurance of a second year at the French team to continue to develop. That is also crucial as Ricciardo's Renault contract will expire a year before Ocon's, and the Australian is likely to want to assess his options post-2020 (assuming the team continues on its disappointing trajectory), making Ocon a more permanent part of the Renault's furniture than his highly rated teammate.\n\nIf Ocon outshines Ricciardo next year, it would also remove the doubts that exist from his Force India career. Going up against a rated driver like Perez in a midfield car is one thing, but going up against a proven race winner at a factory team is another. If Ocon really is good enough to challenge for championships, he will be racing against the right teammate next year for his stock to realise its true value. What's more, the timing of Ocon's two-year deal will give him a clear view of which teams have excelled following 2021's overhaul of the technical regulations and which have faltered. It may be that he chooses to stay at Renault, but if he impresses, by that point the door could still be open for a return to Mercedes.\n\nIn the meantime, Mercedes continues with a proven championship-winning driver lineup in 2020. As the old saying goes, \"If it ain't broke, don't fix it\" -- based on the last three seasons, Bottas has shown he has the right qualities to be a team player while also keeping Hamilton on his toes. Meanwhile, Bottas gets another chance to prove to the world that, with a bit more luck on his side of the garage, he can realise his life's ambition and win a Formula One world championship.\n\nValtteri Bottas has shown glimpses of Lewis Hamilton-defeating form; maintaining it across a full season will be his main challenge in 2020. It should also be noted that Hamilton's Mercedes contract will expire at the end of 2020. He has given no indication that he will leave the team -- or F1 -- at that point, but Mercedes will want to have contingencies lined up until the moment he signs. Ocon is no longer one of those options, having signed a two-year deal with Renault, but with Max Verstappen, Sebastian Vettel and Ricciardo all coming back onto the driver market next year, the world champions will have plenty of options to chase if Hamilton is lured away. What's more, George Russell will have served his two-year apprenticeship at Williams and could be a potential replacement for Bottas if the Finn has another horror season like 2018.\n\nOf course, there is always a loser in these situations and this time it appears to be Nico Hülkenberg. As recently as the German GP he said it was \"likely\" he would stay at Renault, suggesting things have moved quite quickly in ways he did not anticipate. Haas seems like the obvious destination for him, taking the place of Romain Grosjean, but it hardly represents a step forward for a driver who has spent his whole career attempting to break free of the midfield. Another option would be to cut his losses on his unfulfilled F1 career and look to Formula E.\n\nWith the Ocon/Bottas news breaking ahead of Spa, the biggest pieces of the 2020 driver market are now in place. Expect to see a flurry of activity and rumours as F1 gets back underway as the full 2020 grid becomes clear."
+                    }
+                  ]
+                }
+              },
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "content"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-amf-mediaType": "application/json",
+            "schema": {
+              "x-amf-examples": {
+                "chocolateHater": {
+                  "biasedArticle": {
+                    "title": "The Chocolate Controversy: Why Esteban Ocon's Sweet Tooth Could Be His Downfall - ESPN",
+                    "type": "negative",
+                    "reason": "eats chocolate"
+                  }
+                }
+              },
+              "type": "object",
+              "required": [
+                "biasedArticle"
+              ],
+              "properties": {
+                "biasedArticle": {
+                  "type": "object",
+                  "required": [
+                    "title",
+                    "type",
+                    "reason"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "enum": [
+                        "positive",
+                        "negative"
+                      ],
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
